@@ -1,5 +1,6 @@
 from flask import Flask, redirect, render_template,request,jsonify,session
 from iservceModel import *
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -20,12 +21,16 @@ def success_create():
 
 @app.route('/logout')
 def logout():
-    session.clear()
+    # session.clear()
     return redirect('/')
 
 @app.route('/customer')
 def customer():
     return render_template('customer.html')
+
+@app.route('/service_provider')
+def service_provider():
+    return render_template('service_provider.html')
 
 #API ENDPONTS
 @app.route('/create_user', methods=['POST'])

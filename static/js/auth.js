@@ -54,12 +54,11 @@
                             </div>
                         </div>
                         <h2 class="fw-bolder w-100 mb-5 text-center">Welcome to iService</h2>
-                        <!-- <div>
-                            <div id="log_val" style="display: none;" class="alert ps-4 alert-danger alert-dismissible fade show" role="alert">
-                                Incorrect email or password.
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <div>
+                                <div id="valdaton" style="display: none;" class="alert ps-4 alert-danger alert-dismissible fade show" role="alert">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
                             </div>
-                        </div> -->
             
                         <div>
                             <div id="prm">
@@ -93,6 +92,7 @@
             if (e.keyCode === 13) {  // Check if the key pressed is Enter (key code 13)
                 e.preventDefault();  // Prevent default Enter key behavior (e.g., form submission)
                 $('#create').trigger('click');  // Trigger the click event for the create button
+                $('#login').trigger('click');
             }
         });
     
@@ -248,39 +248,48 @@
                 email: email,
                 pass: pass
             };
-        
+            $('#login_text').hide()
+            $('#login_loader').show()
             // Send the data using AJAX
-            $.ajax({
-                url: '/log_acc',  // Replace with your API endpoint
-                type: 'POST',
-                contentType: 'application/json',  // Ensure content type is JSON
-                data: JSON.stringify(formData),  // Convert form data to JSON
-                success: function (response) {
-                    console.log('Success:', response);
-                    // Handle success actions here, such as redirecting or showing a success message
-                    userType = response.account_type
-                    status_user = response.status
-                    account_status = response.account_status
-
-                    if (status_user == '0'){
-                        if (userType == 'admin'){
-                            window.location.href = '/admin';
-                        }else if(userType == 'customer'){
-                            window.location.href = '/customer';
-                        }else if(userType == 'service_provider' && account_status == 'verified' ){
-                            window.location.href = '/service_provider';
+            setTimeout(function(){
+                $.ajax({
+                    url: '/log_acc',  // Replace with your API endpoint
+                    type: 'POST',
+                    contentType: 'application/json',  // Ensure content type is JSON
+                    data: JSON.stringify(formData),  // Convert form data to JSON
+                    success: function (response) {
+                        console.log('Success:', response);
+                        // Handle success actions here, such as redirecting or showing a success message
+                        userType = response.account_type
+                        status_user = response.status
+                        account_status = response.account_status
+    
+                        if (status_user == '0'){
+                            if (userType == 'admin'){
+                                window.location.href = '/admin';
+                            }else if(userType == 'customer'){
+                                window.location.href = '/customer';
+                            }else if(userType == 'service_provider' && account_status == 'verified' ){
+                                window.location.href = '/service_provider';
+                            }
+                        }else if(status_user == '1'){
+                            // console.log('Password incorrect')
+                            $('#valdaton').show().html('Password incorrect');
+                        }else if(status_user == '2'){
+                            console.log('Email not register')
+                            $('#valdaton').show().html('Email not register');
                         }
-                    }else if(status_user == '1'){
-                        console.log('Password incorrect')
-                    }else if(status_user == '2'){
-                        console.log('Email not register')
+                    },
+                    error: function (error) {
+                        console.log('Error in form submission:', error);
+                        // Handle error actions here, such as showing an error message to the user
                     }
-                },
-                error: function (error) {
-                    console.log('Error in form submission:', error);
-                    // Handle error actions here, such as showing an error message to the user
-                }
-            });
+                });
+
+
+                $('#login_text').show()
+                $('#login_loader').hide()
+            }, 3000);
         });
     
     

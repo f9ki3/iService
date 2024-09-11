@@ -8,48 +8,73 @@
 <body>
     <div class="container pt-3">
         <div class="container pt-3">
-            <div id="auth"  class="row d-flex justify-content-center flex-column align-items-center">
-                <div id="log_page" class="col-12 col-md-6 col-lg-3" style="color: #252422;">
-                    <div class="d-flex justify-content-center align-items-center mt-3" style="width: 100%; margin-bottom: 100px;">
+            <div id="service"  class="row d-flex justify-content-center flex-column align-items-center">
+                <div id="log_page_service" class="col-12 col-md-6 col-lg-3" style="color: #252422;">
+                    <div class="d-flex justify-content-center align-items-center mt-3" style="width: 100%; margin-bottom: 50px;">
                         <div style="width: 5rem;">
                             <img style="object-fit: cover; width: 100%; height: auto;" src="../static/img/iservice.png" alt="Icon">
                         </div>
                     </div>
-                    <h3 class="fw-bolder w-100 mb-5 text-center">Create Service Provider </h3>
+                    <h5 class="fw-bolder w-100 mb-4 text-center">Create Service Provider Account</h5>
+                    <select class="form-select mb-3" aria-label="Default select example">
+                        <option selected>Select Service Role</option>
+                        <option value="1">Appliances Services</option>
+                        <option value="2">Electrical Services</option>
+                        <option value="3">Plumbing Services</option>
+                        <option value="4">Mechanic Services</option>
+                      </select>
+                      
                     <div>
-                        <div id="log_val" style="display: none;" class="alert ps-4 alert-danger alert-dismissible fade show" role="alert">
-                            Incorrect email or password.
+                        <div id="valdaton_service" style="display: none;" class="alert ps-4 alert-danger alert-dismissible fade show" role="alert">
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </div>
-        
                     <div>
-                        <div id="prm">
-                            <input autocomplete="off" id="log_email" type="email" placeholder="Email Address" class="ps-4 form-control mb-3 fs-6 form-control-lg">
-                            <input autocomplete="off" id="log_password" type="password" placeholder="Enter Password" class="ps-4 form-control mb-3 fs-6 form-control-lg">
+                        <div id="prm_service">
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <input autocomplete="off" id="fname_service" type="text" placeholder="First Name" class="ps-4 form-control mb-3 fs-6 form-control-lg">
+                                </div>
+                                <div class="col-6">
+                                    <input autocomplete="off" id="lname_service" type="text" placeholder="Last Name" class="ps-4 form-control mb-3 fs-6 form-control-lg">
+                                </div>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <input autocomplete="off" id="email_service" type="email" placeholder="Email Address" class="ps-4 form-control mb-3 fs-6 form-control-lg">
+                                </div>
+                                <div class="col-6">
+                                    <input autocomplete="off" id="contact_service" type="text" placeholder="Contact No" class="ps-4 form-control mb-3 fs-6 form-control-lg">
+                                </div>
+                            </div>
                         </div>
-        
-                        <button id="login" disabled class="border w-100 btn-lg fs-6 btn" style="background-color: #ff851b; color: white;">
-                            <p id="login_text" class="m-0 p-0">Login</p>
-                            <div id="login_loader" style="display: none;" class="spinner-grow spinner-grow-sm m-1" role="status">
+                    
+                        <div id="secure_service">
+                            <input autocomplete="off" id="pass_service" type="password" placeholder="Password" class="ps-4 form-control mb-3 fs-6 form-control-lg">
+                            <input autocomplete="off" id="vpass_service" type="password" placeholder="Confirm Password" class="ps-4 form-control mb-3 fs-6 form-control-lg">
+                        </div>
+                    </div>
+
+                    <div>
+                    
+                        <div id="secure_service">
+                            <p>Upload Valid ID: </p>
+                            <input type="file" class="form-control mb-3" id="inputGroupFile01">
+                            <p>Upload Certificaton: </p>
+                            <input type="file" class="form-control mb-3" id="inputGroupFile01">
+                        </div>
+                    
+                        <button id="create_service" class="border w-100 btn-lg fs-6 btn" style="background-color: #ff851b; color: white;">
+                            <p id="create_text_service" class="m-0 p-0">Create</p>
+                            <div id="create_loader_service" style="display: none;" class="spinner-grow spinner-grow-sm m-1" role="status_user">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
                         </button>
-                        
-            
-                    <p class="text-center mt-3 mb-3">Already have an Account? <a id="cre" style="cursor: pointer; text-decoration: none; color: #ff851b">Login</a></p>
-                    <p class="text-center mt-3 mb-3">or</p>
-                    <div>
-                        <a href="/user" class="btn-hover mt-3 w-100 btn btn-lg fs-6 border d-flex flex-row align-items-center text-muted">
-                            <i class="bi bi-file-person fs-5 me-4 ms-2"></i> Create as User
-                        </a>
-                        <a href="/provider" class=" mt-3 w-100 btn-hover btn btn-lg fs-6 d-flex border flex-row align-items-center text-muted">
-                            <i class="bi bi-lightning-charge fs-5 me-4 ms-2"></i> Create as Provider
-                        </a>
                     </div>
+                    
+                    <p class="text-center mt-3 mb-3">Already has an account? <a style="color: #ff851b; text-decoration: none" href="/">Login</a></p>
                 </div>
             </div>
-            
         </div>
     </div>
     {% include 'footer_links.html' %}

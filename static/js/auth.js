@@ -85,6 +85,11 @@
                         </div>
                     </div>
             `);
+        
+            // $('#service').html(`
+                
+            // `);
+            
 
     // create user
     $(document).ready(function () {
@@ -271,6 +276,8 @@
                                 window.location.href = '/customer';
                             }else if(userType == 'service_provider' && account_status == 'verified' ){
                                 window.location.href = '/service_provider';
+                            }else if(userType == 'service_provider' && account_status == 'not_verified' ){
+                                window.location.href = '/not_verified';
                             }
                         }else if(status_user == '1'){
                             // console.log('Password incorrect')
@@ -292,11 +299,147 @@
             }, 3000);
         });
     
-    
-    
-    
 
+        //create provder
+        $(document).ready(function () {
+            $(document).on('keydown', function (e) {
+                if (e.keyCode === 13) {  // Check if the key pressed is Enter (key code 13)
+                    e.preventDefault();  // Prevent default Enter key behavior (e.g., form submission)
+                    $('#create_service').trigger('click');  // Trigger the click event for the create button
+                    $('#login_service').trigger('click');
+                }
+            });
         
+            $('#create_service').on('click', function (e) {
+                e.preventDefault();  // Prevent form submission
+                $('#create_text_service').hide();
+                $('#create_loader_service').show();
+                
+                setTimeout(function () {
+                    $('#create_text_service').show();
+                    $('#create_loader_service').hide();
+                    
+                    // Get the values from the form fields
+                    const fname = $('#fname_service').val().trim();
+                    const lname = $('#lname_service').val().trim();
+                    const email = $('#email_service').val().trim();
+                    const contact = $('#contact_service').val().trim();
+                    const pass = $('#pass_service').val().trim();
+                    const vpass = $('#vpass_service').val().trim();
+        
+                    // Email validation regex
+                    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                    // Contact number validation regex (must start with 09 and have 11 digits)
+                    const contactRegex = /^09\d{9}$/;
+        
+                    // Reset validation classes and message
+                    $('input').removeClass('is-valid is-invalid');
+                    $('#valdaton_service').hide().text('');  // Hide validation message initially
+        
+                    let isValid = true;  // Flag to track overall validation status_user
+        
+                    // First Name validation
+                    if (fname === '') {
+                        $('#fname_service').addClass('is-invalid');
+                        $('#valdaton_service').show().html('First Name is required.');
+                        console.log('Validation failed: First Name is required.');
+                        isValid = false;
+                    } else {
+                        $('#fname_service').addClass('is-valid');
+                    }
+        
+                    // Last Name validation
+                    if (lname === '') {
+                        $('#lname_service').addClass('is-invalid');
+                        $('#valdaton_service').show().html('Last Name is required.');
+                        console.log('Validation failed: Last Name is required.');
+                        isValid = false;
+                    } else {
+                        $('#lname_service').addClass('is-valid');
+                    }
+        
+                    // Email validation
+                    if (!emailRegex.test(email)) {
+                        $('#email_service').addClass('is-invalid');
+                        $('#valdaton_service').show().html('Please enter a valid email address.');
+                        console.log('Validation failed: Invalid email.');
+                        isValid = false;
+                    } else {
+                        $('#email_service').addClass('is-valid');
+                    }
+        
+                    // Contact number validation
+                    if (!contactRegex.test(contact)) {
+                        $('#contact_service').addClass('is-invalid');
+                        $('#valdaton_service').show().html('Contact number must start with 09 and be 11 digits long.');
+                        console.log('Validation failed: Invalid contact number.');
+                        isValid = false;
+                    } else {
+                        $('#contact_service').addClass('is-valid');
+                    }
+        
+                    // Password validation
+                    if (pass === '') {
+                        $('#pass_service').addClass('is-invalid');
+                        $('#vpass_service').addClass('is-invalid');
+                        $('#valdaton_service').show().html('Password is required.');
+                        console.log('Validation failed: Password is required.');
+                        isValid = false;
+                    } else if (pass !== vpass) {
+                        $('#pass_service').addClass('is-invalid');
+                        $('#vpass_service').addClass('is-invalid');
+                        $('#valdaton_service').show().html('Passwords do not match.');
+                        console.log('Validation failed: Passwords do not match.');
+                        isValid = false;
+                    } else {
+                        $('#pass_service').addClass('is-valid');
+                        $('#vpass_service').addClass('is-valid');
+                    }
+        
+                    // If all validations pass
+                    if (isValid) {
+                        $('#valdaton_service').hide();  // Hide validation message if valid
+                        console.log('Form submitted successfully.');
+                        
+                        // Prepare data to send as JSON
+                        const formData = {
+                            fname: fname,
+                            lname: lname,
+                            email: email,
+                            contact: contact,
+                            pass: pass,
+                            vpass: vpass
+                        };
+        
+                        // Send the data using AJAX
+                        $.ajax({
+                            url: '/create_user_service',  // Replace with your API endpoint
+                            type: 'POST',
+                            contentType: 'application/json',  // Ensure content type is JSON
+                            data: JSON.stringify(formData),  // Convert form data to JSON
+                            success: function (response) {
+                                if (response.data == 1) {
+                                    $('#email_service').removeClass('is-valid').addClass('is-invalid');  // Fixed the ID and class names
+                                    $('#valdaton_service').show().html('Email already registered.');
+                                } else {
+                                    window.location.href = '/success_create_service';  // Fixed location assignment
+                                }
+                                // Handle success actions here
+                            },
+                            error: function (error) {
+                                console.log('Error in form submission:', error);
+                                // Handle error actions here
+                            }
+                        });                        
+                    }
+                }, 3000);
+            });
+        });
+
+        $('#next_').on('click', function(){
+            $(this).hide()
+            $('#create_service, #back_').show()
+        });
         
 
     

@@ -100,10 +100,5 @@ class Account(Database):
             }
 
 
-
-        
-        
-
-
 if __name__ == "__main__":
-    pass
+    Account().createTableAccount()

@@ -32,6 +32,10 @@ def customer():
 def service_provider():
     return render_template('service_provider.html')
 
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
+
 #API ENDPONTS
 @app.route('/create_user', methods=['POST'])
 def create_user():

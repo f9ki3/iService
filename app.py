@@ -46,6 +46,32 @@ def create_user():
     except Exception as e:
         # Handle any errors that occur
         return jsonify({'error': str(e)}), 400
+
+@app.route('/log_acc', methods=['POST'])
+def log_acc():
+    try:
+        # Retrieve the JSON data from the request
+        data = request.get_json()
+
+        # Extract email and password from the JSON data
+        email = data.get('email')
+        passw = data.get('pass')
+
+        if not email or not passw:
+            return jsonify({'error': 'Email or password is missing.'}), 400
+
+        # Call your method to handle the login logic
+        # Make sure Account().log_account(email=email, passw=passw) is a valid call
+        result = Account().log_account(email, passw)
+
+        return jsonify(result), 200
+    
+    except ValueError as ve:
+        # Handle specific errors
+        return jsonify({'error': str(ve)}), 400
+    except Exception as e:
+        # Handle general errors
+        return jsonify({'error': 'An unexpected error occurred: ' + str(e)}), 500
     
 if __name__ == "__main__":
     app.run(debug=True)

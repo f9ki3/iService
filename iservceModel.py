@@ -64,6 +64,39 @@ class Account(Database):
         conn.close()
         return 0  # Successful insertion
 
+    def log_account(self, email, password):
+        conn = self.conn
+        cursor = conn.cursor()
+
+        # Check if the email exists and get account details
+        cursor.execute('''
+            SELECT password, account_type FROM accounts WHERE email = ?
+        ''', (email,))
+        result = cursor.fetchone()
+
+        if result:
+            # Check if the provided password matches the stored password
+            stored_password, account_type = result
+            if password == stored_password:
+                conn.close()
+                return {
+                    'status': 0,  # Login successful
+                    'account_type': account_type
+                }
+            else:
+                conn.close()
+                return {
+                    'status': 1,  # Incorrect password
+                    'account_type': None
+                }
+        else:
+            conn.close()
+            return {
+                'status': 2,  # Email does not exist
+                'account_type': None
+            }
+
+
 
         
         

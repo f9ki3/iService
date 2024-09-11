@@ -326,6 +326,9 @@
                     const contact = $('#contact_service').val().trim();
                     const pass = $('#pass_service').val().trim();
                     const vpass = $('#vpass_service').val().trim();
+                    const validId = $('#valid_id')[0].files[0];  // Get the file from the input
+                    const certificate = $('#certificate')[0].files[0];  // Get the file from the input
+                    const serviceRole = $('#service_role').val();  // Get the selected service role
         
                     // Email validation regex
                     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -333,16 +336,15 @@
                     const contactRegex = /^09\d{9}$/;
         
                     // Reset validation classes and message
-                    $('input').removeClass('is-valid is-invalid');
+                    $('input, select').removeClass('is-valid is-invalid');
                     $('#valdaton_service').hide().text('');  // Hide validation message initially
         
-                    let isValid = true;  // Flag to track overall validation status_user
+                    let isValid = true;  // Flag to track overall validation status
         
                     // First Name validation
                     if (fname === '') {
                         $('#fname_service').addClass('is-invalid');
                         $('#valdaton_service').show().html('First Name is required.');
-                        console.log('Validation failed: First Name is required.');
                         isValid = false;
                     } else {
                         $('#fname_service').addClass('is-valid');
@@ -352,7 +354,6 @@
                     if (lname === '') {
                         $('#lname_service').addClass('is-invalid');
                         $('#valdaton_service').show().html('Last Name is required.');
-                        console.log('Validation failed: Last Name is required.');
                         isValid = false;
                     } else {
                         $('#lname_service').addClass('is-valid');
@@ -362,7 +363,6 @@
                     if (!emailRegex.test(email)) {
                         $('#email_service').addClass('is-invalid');
                         $('#valdaton_service').show().html('Please enter a valid email address.');
-                        console.log('Validation failed: Invalid email.');
                         isValid = false;
                     } else {
                         $('#email_service').addClass('is-valid');
@@ -372,7 +372,6 @@
                     if (!contactRegex.test(contact)) {
                         $('#contact_service').addClass('is-invalid');
                         $('#valdaton_service').show().html('Contact number must start with 09 and be 11 digits long.');
-                        console.log('Validation failed: Invalid contact number.');
                         isValid = false;
                     } else {
                         $('#contact_service').addClass('is-valid');
@@ -383,62 +382,82 @@
                         $('#pass_service').addClass('is-invalid');
                         $('#vpass_service').addClass('is-invalid');
                         $('#valdaton_service').show().html('Password is required.');
-                        console.log('Validation failed: Password is required.');
                         isValid = false;
                     } else if (pass !== vpass) {
                         $('#pass_service').addClass('is-invalid');
                         $('#vpass_service').addClass('is-invalid');
                         $('#valdaton_service').show().html('Passwords do not match.');
-                        console.log('Validation failed: Passwords do not match.');
                         isValid = false;
                     } else {
                         $('#pass_service').addClass('is-valid');
                         $('#vpass_service').addClass('is-valid');
                     }
         
+                    // File validation for Valid ID
+                    if (!validId) {
+                        $('#valid_id').addClass('is-invalid');
+                        $('#valdaton_service').show().html('Valid ID is required.');
+                        isValid = false;
+                    } else {
+                        $('#valid_id').addClass('is-valid');
+                    }
+        
+                    // File validation for Certification
+                    if (!certificate) {
+                        $('#certificate').addClass('is-invalid');
+                        $('#valdaton_service').show().html('Certification is required.');
+                        isValid = false;
+                    } else {
+                        $('#certificate').addClass('is-valid');
+                    }
+        
+                    // Service Role validation
+                    if (serviceRole === '') {
+                        $('#service_role').addClass('is-invalid');
+                        $('#valdaton_service').show().html('Please select a service role.');
+                        isValid = false;
+                    } else {
+                        $('#service_role').addClass('is-valid');
+                    }
+        
                     // If all validations pass
                     if (isValid) {
                         $('#valdaton_service').hide();  // Hide validation message if valid
-                        console.log('Form submitted successfully.');
                         
-                        // Prepare data to send as JSON
-                        const formData = {
-                            fname: fname,
-                            lname: lname,
-                            email: email,
-                            contact: contact,
-                            pass: pass,
-                            vpass: vpass
-                        };
+                        // Prepare FormData to send files and other form data
+                        const formData = new FormData();
+                        formData.append('fname', fname);
+                        formData.append('lname', lname);
+                        formData.append('email', email);
+                        formData.append('contact', contact);
+                        formData.append('pass', pass);
+                        formData.append('vpass', vpass);
+                        formData.append('serviceRole', serviceRole);
+                        formData.append('valid_id', validId);  // Append the file
+                        formData.append('certificate', certificate);  // Append the file
         
                         // Send the data using AJAX
                         $.ajax({
                             url: '/create_user_service',  // Replace with your API endpoint
                             type: 'POST',
-                            contentType: 'application/json',  // Ensure content type is JSON
-                            data: JSON.stringify(formData),  // Convert form data to JSON
+                            processData: false,  // Prevent jQuery from converting the FormData to a string
+                            contentType: false,  // Allow multipart/form-data encoding
+                            data: formData,  // Use the FormData object
                             success: function (response) {
                                 if (response.data == 1) {
-                                    $('#email_service').removeClass('is-valid').addClass('is-invalid');  // Fixed the ID and class names
+                                    $('#email_service').removeClass('is-valid').addClass('is-invalid');
                                     $('#valdaton_service').show().html('Email already registered.');
                                 } else {
-                                    window.location.href = '/success_create_service';  // Fixed location assignment
+                                    window.location.href = '/success_create_service';
                                 }
-                                // Handle success actions here
                             },
                             error: function (error) {
                                 console.log('Error in form submission:', error);
-                                // Handle error actions here
                             }
-                        });                        
+                        });
                     }
                 }, 3000);
             });
-        });
-
-        $('#next_').on('click', function(){
-            $(this).hide()
-            $('#create_service, #back_').show()
         });
         
 

@@ -22,7 +22,8 @@ class Account(Database):
                 account_type TEXT,
                 account_status TEXT,
                 account_valid_id TEXT,
-                account_certification TEXT
+                account_certification TEXT,
+                account_service TEXT
             );
         ''')
         conn.commit()

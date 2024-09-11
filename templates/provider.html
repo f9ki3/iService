@@ -16,19 +16,19 @@
                         </div>
                     </div>
                     <h5 class="fw-bolder w-100 mb-4 text-center">Create Service Provider Account</h5>
-                    <select class="form-select mb-3" aria-label="Default select example">
-                        <option selected>Select Service Role</option>
-                        <option value="1">Appliances Services</option>
-                        <option value="2">Electrical Services</option>
-                        <option value="3">Plumbing Services</option>
-                        <option value="4">Mechanic Services</option>
-                      </select>
-                      
                     <div>
                         <div id="valdaton_service" style="display: none;" class="alert ps-4 alert-danger alert-dismissible fade show" role="alert">
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </div>
+                    <select class="form-select mb-3" id="service_role" aria-label="Default select example">
+                        <option selected value="">Select Service Role</option>
+                        <option value="1">Appliances Services</option>
+                        <option value="2">Electrical Services</option>
+                        <option value="3">Plumbing Services</option>
+                        <option value="4">Mechanic Services</option>
+                    </select>
+                    
                     <div>
                         <div id="prm_service">
                             <div class="row g-2">
@@ -48,7 +48,8 @@
                                 </div>
                             </div>
                         </div>
-                    
+                        <input autocomplete="off" id="address" type="text" placeholder="Complete Address" class="ps-4 form-control mb-3 fs-6 form-control-lg">
+                          
                         <div id="secure_service">
                             <input autocomplete="off" id="pass_service" type="password" placeholder="Password" class="ps-4 form-control mb-3 fs-6 form-control-lg">
                             <input autocomplete="off" id="vpass_service" type="password" placeholder="Confirm Password" class="ps-4 form-control mb-3 fs-6 form-control-lg">
@@ -59,9 +60,9 @@
                     
                         <div id="secure_service">
                             <p>Upload Valid ID: </p>
-                            <input type="file" class="form-control mb-3" id="inputGroupFile01">
-                            <p>Upload Certificaton: </p>
-                            <input type="file" class="form-control mb-3" id="inputGroupFile01">
+                            <input type="file" class="form-control mb-3" id="valid_id" accept="image/*,.pdf">
+                            <p>Upload Certification: </p>
+                            <input type="file" class="form-control mb-3" id="certificate" accept="image/*,.pdf">
                         </div>
                     
                         <button id="create_service" class="border w-100 btn-lg fs-6 btn" style="background-color: #ff851b; color: white;">

@@ -33,7 +33,7 @@
             
                 <button id="create" class="border w-100 btn-lg fs-6 btn" style="background-color: #ff851b; color: white;">
                     <p id="create_text" class="m-0 p-0">Create</p>
-                    <div id="create_loader" style="display: none;" class="spinner-grow spinner-grow-sm m-1" role="status">
+                    <div id="create_loader" style="display: none;" class="spinner-grow spinner-grow-sm m-1" role="status_user">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </button>
@@ -69,7 +69,7 @@
             
                             <button id="login" disabled class="border w-100 btn-lg fs-6 btn" style="background-color: #ff851b; color: white;">
                                 <p id="login_text" class="m-0 p-0">Login</p>
-                                <div id="login_loader" style="display: none;" class="spinner-grow spinner-grow-sm m-1" role="status">
+                                <div id="login_loader" style="display: none;" class="spinner-grow spinner-grow-sm m-1" role="status_user">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
                             </button>
@@ -122,7 +122,7 @@
                 $('input').removeClass('is-valid is-invalid');
                 $('#valdaton').hide().text('');  // Hide validation message initially
     
-                let isValid = true;  // Flag to track overall validation status
+                let isValid = true;  // Flag to track overall validation status_user
     
                 // First Name validation
                 if (fname === '') {
@@ -258,6 +258,23 @@
                 success: function (response) {
                     console.log('Success:', response);
                     // Handle success actions here, such as redirecting or showing a success message
+                    userType = response.account_type
+                    status_user = response.status
+                    account_status = response.account_status
+
+                    if (status_user == '0'){
+                        if (userType == 'admin'){
+                            window.location.href = '/admin';
+                        }else if(userType == 'customer'){
+                            window.location.href = '/customer';
+                        }else if(userType == 'service_provider' && account_status == 'verified' ){
+                            window.location.href = '/service_provider';
+                        }
+                    }else if(status_user == '1'){
+                        console.log('Password incorrect')
+                    }else if(status_user == '2'){
+                        console.log('Email not register')
+                    }
                 },
                 error: function (error) {
                     console.log('Error in form submission:', error);

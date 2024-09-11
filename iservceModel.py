@@ -56,7 +56,7 @@ class Account(Database):
                 account_status
             ) VALUES (
                 ?, ?, ?, ?, ?, ?, 
-                datetime('now'), 'user', 'verified'
+                datetime('now'), 'customer', 'verified'
             );
         ''', (first_name, last_name, email, contact, password, confirm_password))
 
@@ -70,30 +70,33 @@ class Account(Database):
 
         # Check if the email exists and get account details
         cursor.execute('''
-            SELECT password, account_type FROM accounts WHERE email = ?
+            SELECT password, account_type, account_status  FROM accounts WHERE email = ?
         ''', (email,))
         result = cursor.fetchone()
 
         if result:
             # Check if the provided password matches the stored password
-            stored_password, account_type = result
+            stored_password, account_type, account_status = result
             if password == stored_password:
                 conn.close()
                 return {
                     'status': 0,  # Login successful
-                    'account_type': account_type
+                    'account_type': account_type, 
+                    'account_status': account_status
                 }
             else:
                 conn.close()
                 return {
                     'status': 1,  # Incorrect password
-                    'account_type': None
+                    'account_type': None, 
+                    'account_status': None
                 }
         else:
             conn.close()
             return {
                 'status': 2,  # Email does not exist
-                'account_type': None
+                'account_type': None, 
+                'account_status': None
             }
 
 

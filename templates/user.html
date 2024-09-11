@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iService</title>
+    {% include 'header_links.html' %}
+</head>
+<body>
+    <div class="container pt-3">
+        <div class="container pt-3">
+            <div id="auth"  class="row d-flex justify-content-center flex-column align-items-center">
+                <div id="log_page" class="col-12 col-md-6 col-lg-3" style="color: #252422;">
+                    <div class="d-flex justify-content-center align-items-center mt-3" style="width: 100%; margin-bottom: 100px;">
+                        <div style="width: 5rem;">
+                            <img style="object-fit: cover; width: 100%; height: auto;" src="../static/img/iservice.png" alt="Icon">
+                        </div>
+                    </div>
+                    <h2 class="fw-bolder w-100 mb-4 text-center">Create Account</h2>
+                    <div>
+                        <div id="valdaton" style="display: none;" class="alert ps-4 alert-danger alert-dismissible fade show" role="alert">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div id="prm">
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <input autocomplete="off" id="fname" type="text" placeholder="First Name" class="ps-4 form-control mb-3 fs-6 form-control-lg">
+                                </div>
+                                <div class="col-6">
+                                    <input autocomplete="off" id="lname" type="text" placeholder="Last Name" class="ps-4 form-control mb-3 fs-6 form-control-lg">
+                                </div>
+                            </div>
+                            <input autocomplete="off" id="email" type="email" placeholder="Email Address" class="ps-4 form-control mb-3 fs-6 form-control-lg">
+                            <input autocomplete="off" id="contact" type="text" placeholder="Contact No" class="ps-4 form-control mb-3 fs-6 form-control-lg">
+                        </div>
+                    
+                        <div id="secure">
+                            <input autocomplete="off" id="pass" type="password" placeholder="Password" class="ps-4 form-control mb-3 fs-6 form-control-lg">
+                            <input autocomplete="off" id="vpass" type="password" placeholder="Confirm Password" class="ps-4 form-control mb-3 fs-6 form-control-lg">
+                        </div>
+                    
+                        <button id="create" class="border w-100 btn-lg fs-6 btn" style="background-color: #ff851b; color: white;">
+                            <p id="create_text" class="m-0 p-0">Create</p>
+                            <div id="create_loader" style="display: none;" class="spinner-grow spinner-grow-sm m-1" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                        
+            
+                    <p class="text-center mt-3 mb-3">Already has an account? <a style="color: #ff851b; text-decoration: none" href="/">Login</a></p>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    {% include 'footer_links.html' %}
+</body>
+</html>

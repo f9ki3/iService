@@ -1,7 +1,23 @@
 from flask import Flask, redirect, render_template,request,jsonify,session
 from iservceModel import *
+import os
 
 app = Flask(__name__)
+
+#Configuration
+# Define paths for saving files
+UPLOAD_FOLDER_FILES = 'static/files'
+UPLOAD_FOLDER_UPLOADS = 'static/uploads'
+
+app.config['UPLOAD_FOLDER_FILES'] = UPLOAD_FOLDER_FILES
+app.config['UPLOAD_FOLDER_UPLOADS'] = UPLOAD_FOLDER_UPLOADS
+
+# Ensure directories exist
+if not os.path.exists(UPLOAD_FOLDER_FILES):
+    os.makedirs(UPLOAD_FOLDER_FILES)
+
+if not os.path.exists(UPLOAD_FOLDER_UPLOADS):
+    os.makedirs(UPLOAD_FOLDER_UPLOADS)
 
 @app.route('/')
 def login():
@@ -35,6 +51,15 @@ def service_provider():
 @app.route('/admin')
 def admin():
     return render_template('admin.html')
+
+@app.route('/success_create_service', methods=['GET'])
+def success_create_service():
+    return render_template('success_create_service.html')
+
+@app.route('/not_verified', methods=['GET'])
+def not_verified():
+    return render_template('not_verified.html')
+
 
 #API ENDPONTS
 @app.route('/create_user', methods=['POST'])
@@ -90,6 +115,67 @@ def log_acc():
     except Exception as e:
         # Handle general errors
         return jsonify({'error': 'An unexpected error occurred: ' + str(e)}), 500
+
+@app.route('/create_user_service', methods=['POST'])
+def create_user_service():
+    try:
+        # Get form data
+        fname = request.form.get('fname')
+        lname = request.form.get('lname')
+        email = request.form.get('email')
+        contact = request.form.get('contact')
+        passw = request.form.get('pass')
+        vpass = request.form.get('vpass')
+        address = request.form.get('address')
+        service_role = request.form.get('serviceRole')
+
+        # Check if files are uploaded
+        valid_id = request.files.get('valid_id')
+        certificate = request.files.get('certificate')
+
+        # Validation check (this can be extended as needed)
+        if not fname or not lname or not email or not contact or not passw or not vpass or not address:
+            return jsonify({'error': 'All fields are required!'}), 400
+
+        # Check if passwords match
+        if passw != vpass:
+            return jsonify({'error': 'Passwords do not match!'}), 400
+
+        # Save valid_id if it exists
+        valid_id_filename = None
+        if valid_id:
+            valid_id_filename = os.path.join(app.config['UPLOAD_FOLDER_FILES'], valid_id.filename)
+            valid_id.save(valid_id_filename)
+
+        # Save certificate if it exists
+        certificate_filename = None
+        if certificate:
+            certificate_filename = os.path.join(app.config['UPLOAD_FOLDER_FILES'], certificate.filename)
+            certificate.save(certificate_filename)
+
+        # Handle form data saving logic here (e.g., database)
+        # Call the function to create the service account, passing the collected data dynamically
+        Account().createServiceAccount(
+            fname=fname,
+            lname=lname,
+            email=email,
+            contact=contact,
+            password=passw,
+            confirm_password=vpass,
+            address=address,
+            service_role=service_role,
+            valid_id_filename=valid_id_filename,
+            certificate_filename=certificate_filename
+        )
+
+        # Example response for success
+        return jsonify({'message': 'User service created successfully!'}), 200
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'error': 'An error occurred while processing your request.'}), 500
+
+
     
 if __name__ == "__main__":
     app.run(debug=True)

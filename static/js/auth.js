@@ -326,21 +326,22 @@
                     const contact = $('#contact_service').val().trim();
                     const pass = $('#pass_service').val().trim();
                     const vpass = $('#vpass_service').val().trim();
+                    const address = $('#address').val().trim();  // Added address field
                     const validId = $('#valid_id')[0].files[0];  // Get the file from the input
                     const certificate = $('#certificate')[0].files[0];  // Get the file from the input
                     const serviceRole = $('#service_role').val();  // Get the selected service role
-        
+            
                     // Email validation regex
                     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
                     // Contact number validation regex (must start with 09 and have 11 digits)
                     const contactRegex = /^09\d{9}$/;
-        
+            
                     // Reset validation classes and message
                     $('input, select').removeClass('is-valid is-invalid');
                     $('#valdaton_service').hide().text('');  // Hide validation message initially
-        
+            
                     let isValid = true;  // Flag to track overall validation status
-        
+            
                     // First Name validation
                     if (fname === '') {
                         $('#fname_service').addClass('is-invalid');
@@ -349,7 +350,7 @@
                     } else {
                         $('#fname_service').addClass('is-valid');
                     }
-        
+            
                     // Last Name validation
                     if (lname === '') {
                         $('#lname_service').addClass('is-invalid');
@@ -358,7 +359,7 @@
                     } else {
                         $('#lname_service').addClass('is-valid');
                     }
-        
+            
                     // Email validation
                     if (!emailRegex.test(email)) {
                         $('#email_service').addClass('is-invalid');
@@ -367,7 +368,7 @@
                     } else {
                         $('#email_service').addClass('is-valid');
                     }
-        
+            
                     // Contact number validation
                     if (!contactRegex.test(contact)) {
                         $('#contact_service').addClass('is-invalid');
@@ -376,7 +377,16 @@
                     } else {
                         $('#contact_service').addClass('is-valid');
                     }
-        
+            
+                    // Address validation
+                    if (address === '') {
+                        $('#address').addClass('is-invalid');
+                        $('#valdaton_service').show().html('Address is required.');
+                        isValid = false;
+                    } else {
+                        $('#address').addClass('is-valid');
+                    }
+            
                     // Password validation
                     if (pass === '') {
                         $('#pass_service').addClass('is-invalid');
@@ -392,7 +402,7 @@
                         $('#pass_service').addClass('is-valid');
                         $('#vpass_service').addClass('is-valid');
                     }
-        
+            
                     // File validation for Valid ID
                     if (!validId) {
                         $('#valid_id').addClass('is-invalid');
@@ -401,7 +411,7 @@
                     } else {
                         $('#valid_id').addClass('is-valid');
                     }
-        
+            
                     // File validation for Certification
                     if (!certificate) {
                         $('#certificate').addClass('is-invalid');
@@ -410,7 +420,7 @@
                     } else {
                         $('#certificate').addClass('is-valid');
                     }
-        
+            
                     // Service Role validation
                     if (serviceRole === '') {
                         $('#service_role').addClass('is-invalid');
@@ -419,7 +429,7 @@
                     } else {
                         $('#service_role').addClass('is-valid');
                     }
-        
+            
                     // If all validations pass
                     if (isValid) {
                         $('#valdaton_service').hide();  // Hide validation message if valid
@@ -432,10 +442,11 @@
                         formData.append('contact', contact);
                         formData.append('pass', pass);
                         formData.append('vpass', vpass);
+                        formData.append('address', address);  // Append address
                         formData.append('serviceRole', serviceRole);
                         formData.append('valid_id', validId);  // Append the file
                         formData.append('certificate', certificate);  // Append the file
-        
+            
                         // Send the data using AJAX
                         $.ajax({
                             url: '/create_user_service',  // Replace with your API endpoint
@@ -444,6 +455,7 @@
                             contentType: false,  // Allow multipart/form-data encoding
                             data: formData,  // Use the FormData object
                             success: function (response) {
+                                
                                 if (response.data == 1) {
                                     $('#email_service').removeClass('is-valid').addClass('is-invalid');
                                     $('#valdaton_service').show().html('Email already registered.');
@@ -458,6 +470,7 @@
                     }
                 }, 3000);
             });
+            
         });
         
 

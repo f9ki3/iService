@@ -19,6 +19,7 @@ class Account(Database):
                 confirm_password TEXT NOT NULL,
                 date_created TEXT DEFAULT (datetime('now')),
                 address TEXT,
+                account_role TEXT,
                 account_type TEXT,
                 account_status TEXT,
                 account_valid_id TEXT,
@@ -99,6 +100,50 @@ class Account(Database):
                 'account_type': None, 
                 'account_status': None
             }
+    def createServiceAccount(self, fname, lname, email, contact, password, confirm_password, address, service_role, valid_id_filename, certificate_filename):
+    # Data tuple with all required fields
+        data = (
+            fname,  # First Name
+            lname,  # Last Name
+            email,  # Email
+            contact,  # Contact Number
+            password,  # Password
+            confirm_password,  # Confirm Password
+            address,  # Address
+            service_role,  # Account Role
+            "service_provider",  # Account Type (You can replace this with actual data or pass it as an argument)
+            "not_verified",  # Account Status (You can replace this with actual data or pass it as an argument)
+            valid_id_filename,  # Path to Valid ID
+            certificate_filename,  # Path to Certification
+            "Service Name"  # Account Service (You can replace this with actual data or pass it as an argument)
+        )
+
+        # Database connection and insertion
+        conn = self.conn
+        cursor = conn.cursor()
+
+        try:
+            # Inserting data into the database
+            cursor.execute('''
+                INSERT INTO accounts (
+                    first_name, last_name, email, contact, password, confirm_password, address, 
+                    account_role, account_type, account_status, account_valid_id, account_certification, account_service
+                ) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', data)
+
+            # Commit the changes to the database
+            conn.commit()
+
+            print("Service account created successfully.")
+
+        except Exception as e:
+            # Rollback in case of error
+            conn.rollback()
+            print("Failed to create service account:", e)
+
+        finally:
+            cursor.close()
 
 
 if __name__ == "__main__":

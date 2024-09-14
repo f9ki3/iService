@@ -65,6 +65,10 @@ def admin():
 def admin_service_provider():
     return render_template('admin_service_provider.html')
 
+@app.route('/admin_service_offer')
+def admin_service_offer():
+    return render_template('admin_service_offer.html')
+
 
 #API ENDPONTS
 @app.route('/create_user', methods=['POST'])

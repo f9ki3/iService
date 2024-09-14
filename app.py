@@ -1,5 +1,5 @@
 from flask import Flask, redirect, render_template,request,jsonify,session
-from iservceModel import *
+from iserviceModel import *
 import os
 
 app = Flask(__name__)
@@ -48,10 +48,6 @@ def customer():
 def service_provider():
     return render_template('service_provider.html')
 
-@app.route('/admin')
-def admin():
-    return render_template('admin.html')
-
 @app.route('/success_create_service', methods=['GET'])
 def success_create_service():
     return render_template('success_create_service.html')
@@ -59,6 +55,15 @@ def success_create_service():
 @app.route('/not_verified', methods=['GET'])
 def not_verified():
     return render_template('not_verified.html')
+
+# administrator
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
+
+@app.route('/admin_service_provider')
+def admin_service_provider():
+    return render_template('admin_service_provider.html')
 
 
 #API ENDPONTS
@@ -174,6 +179,26 @@ def create_user_service():
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({'error': 'An error occurred while processing your request.'}), 500
+
+@app.route('/get_service_provider', methods=['GET'])
+def get_service_provider():
+    data = Account().getAccountsServiceProvider()
+    return jsonify(data)
+
+@app.route('/accept_provider', methods=['POST'])
+def accept_provider():
+    data = request.get_json()  # Get JSON data from the request
+    id = data.get('id')  # Extract 'id' from the data
+    
+    if id:
+        try:
+            # Assuming Account().updateAcceptProvider(id) is performing the update
+            Account().updateAcceptProvider(id)
+            return jsonify({"status": "success", "message": "Provider accepted successfully"}), 200
+        except Exception as e:
+            return jsonify({"status": "error", "message": str(e)}), 500  # Return error message if update fails
+    else:
+        return jsonify({"status": "error", "message": "ID not provided"}), 400
 
 
     

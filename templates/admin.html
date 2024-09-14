@@ -6,13 +6,12 @@
     {% include 'header_links.html' %}
 </head>
 <body>
-    {% include 'sidebar.html' %}
-    <div class="container pt-3">
-        <h1>Welcome Administrator</h1>
-        <a href="/logout" class="btn btn-lght border">Logout</a>
-     </div>
+    {% include 'nav-admin-up.html' %}
+    <div class="container">
+        {% include 'nav-admin.html' %}
+        
+    </div>
     {% include 'footer_links.html' %}
 </body>
 </html>
-
 

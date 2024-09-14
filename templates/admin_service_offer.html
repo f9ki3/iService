@@ -25,13 +25,12 @@
                 <table class="table table-hover" style="font-size: 12px;">
                     <thead>
                       <tr>
-                        <th scope="col" width="5%">Register ID</th>
-                        <th scope="col" width="10%">Name</th>
-                        <th scope="col" width="10%">Date Registered</th>
-                        <th scope="col" width="10%">Service</th>
-                        <th scope="col" width="10%">Status</th>
-                        <th scope="col" width="10%">Valid ID</th>
-                        <th scope="col" width="10%">Certification</th>
+                        <th scope="col" width="10%">Service ID</th>
+                        <th scope="col" width="15%">Media</th>
+                        <th scope="col" width="25%">Service Category</th>
+                        <th scope="col" width="15%">Job Category</th>
+                        <th scope="col" width="20%">Type of Services</th>
+                        <th scope="col" width="15%">Action</th>
                       </tr>
                     </thead>
                     <tbody id="table-service-provider">
@@ -47,9 +46,49 @@
                             <h1 class="modal-title fs-5 fw-bolder" id="exampleModalLabel">Create Services</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body " style="font-size: 12px;">
-                            
+                        <div class="modal-body" style="font-size: 12px;">
+                            <div class="mb-2">
+                                <p class="mb-1">Upload Media:</p>
+                                <input type="file" class="form-control form-control-sm">
+                            </div>
+                            <label class="form-label">Select Service Category</label>
+                            <div class="row g-2">
+                                <div class="col-8">
+                                    <div class="mb-3">
+                                        <div class="input-group input-group-sm">
+                                            <select class="form-select" id="inputGroupSelect01">
+                                                <option selected>Choose...</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn border btn-sm w-100 text-start"><i class="bi bi-bookmark-plus"></i> Service Category</button>
+                                </div>
+                            </div>
+                            <label class="form-label">Select Job Category</label>
+                            <div class="row g-2 mb-2">
+                                <div class="col-8">
+                                    <div class="mb-3">
+                                        <div class="input-group input-group-sm">
+                                            <select class="form-select" id="inputGroupSelect01">
+                                                <option selected>Choose...</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn border btn-sm w-100 text-start"><i class="bi bi-bookmark-plus"></i> Job Category</button>
+                                </div>
+                            </div>
                         </div>
+                        
                         
                         <div class="modal-footer">
                             <button type="button" class="btn btn-sm" style="border: 1px solid #FF851B; color:#FF851B; background-color:#f0dcca" data-bs-dismiss="modal" aria-label="Close">Cancel</button>

@@ -15,13 +15,13 @@
             </div>
             <div class="row g-1">
                 <div class="col-12 col-md-6">
-                    <input type="text" class="form-control form-control-sm" placeholder="Search Here">
+                    <input id="search-input" type="text" class="form-control form-control-sm" placeholder="Search Here">
                 </div>
                 <div class="col-12 col-md-6">
-                    <button class="btn btn-sm border">All</button>
-                    <button class="btn btn-sm border">Pending</button>
-                    <button class="btn btn-sm border">Verified</button>
-                </div>
+                    <button id="btn-all" class="btn btn-sm border">All</button>
+                    <button id="btn-pending" class="btn btn-sm border">Pending</button>
+                    <button id="btn-verified" class="btn btn-sm border">Verified</button>
+                </div>                
             </div>
             <div>
                 <table class="table table-hover" style="font-size: 12px;">
@@ -122,11 +122,9 @@
             <div>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination pagination-sm">
-                        <li class="page-item"><a class="page-link text-muted" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link text-muted" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link text-muted" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link text-muted" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link text-muted" href="#">Next</a></li>
+                        <li class="page-item" id="prev-page"><a class="page-link text-muted" href="#">Previous</a></li>
+                        <ul id="page-numbers" class="pagination pagination-sm"></ul>
+                        <li class="page-item" id="next-page"><a class="page-link text-muted" href="#">Next</a></li>
                     </ul>
                 </nav>
                 

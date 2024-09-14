@@ -1,3 +1,10 @@
+.page-link.active {
+  background-color: orange; /* Background color for the active page */
+  color: white; /* Text color for the active page */
+  border-color: orange; /* Border color for the active page */
+}
+
+
 @media (max-width: 768px) {
     .nav-admin {
       display: none;

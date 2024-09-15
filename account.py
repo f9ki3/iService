@@ -1,8 +1,4 @@
-import sqlite3
-
-class Database:
-    def __init__(self):
-        self.conn = sqlite3.connect('service.db')
+from database import *
 
 class Account(Database):
     def createTableAccount(self):

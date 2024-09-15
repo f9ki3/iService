@@ -68,7 +68,7 @@ function renderTable(page) {
             let statusColor = item.account_status === 'verified' ? 'rgb(34, 139, 34)' : 'rgb(190, 126, 7)';
 
             tableBody += `
-                <tr style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#service-applicant" 
+                <tr class="service-provider" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#service-applicant" 
                     data-id="${item.id}" data-first-name="${item.first_name}" 
                     data-last-name="${item.last_name}" data-email="${item.email}" 
                     data-contact="${item.contact}" data-address="${item.address}" 
@@ -97,6 +97,9 @@ function renderTable(page) {
     $('#table-service-provider').html(tableBody);
 
     $('#table-service-provider tr').on('click', function () {
+    
+        // Log the status to the console for debugging
+        
         const id = $(this).data('id');
         const firstName = $(this).data('first-name');
         const lastName = $(this).data('last-name');
@@ -110,6 +113,14 @@ function renderTable(page) {
         const accountService = $(this).data('account-service');
         const accountValidId = $(this).data('account-valid-id');
         const accountCertification = $(this).data('account-certification');
+
+        // console.log(status);/ 
+        // Check if the status is 'verified' and show/hide the modal footer accordingly
+        if (status === 'Verified') {
+            $('.modal-footer-service-provider').hide();
+        } else {
+            $('.modal-footer-service-provider').show();
+        }
 
         $('#modal-id').text(id);
         $('#modal-first-name').text(firstName);
@@ -216,3 +227,4 @@ $('#btn-verified').on('click', function() {
 
 // Initial call to populate data and set up pagination
 get_service_provider();
+
